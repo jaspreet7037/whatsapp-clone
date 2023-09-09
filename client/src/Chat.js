@@ -5,7 +5,10 @@ import MicIcon from '@mui/icons-material/Mic';
 import React from 'react';
 import "./Chat.css";
 
-function Chat() {
+function Chat({ messages }) {
+  const sendMessage = (e) => {
+    e.preventDefaults();
+  };
   return (
     <div className="chat">
       <div className="chat__header">
@@ -27,29 +30,15 @@ function Chat() {
         </div>
       </div>
       <div className="chat__body">
-        <p className='chat__message'>
-          <span className='chat__name'>Jaspreet</span>
-          This is a message
-          <span className="chat__timestamp">
-            {new Date().toUTCString()}
-          </span>
-        </p>
-
-        <p className='chat__message chat__receiver'>
-          <span className='chat__name'>Jaspreet</span>
-          This is a message
-          <span className="chat__timestamp">
-            {new Date().toUTCString()}
-          </span>
-        </p>
-
-        <p className='chat__message'>
-          <span className='chat__name'>Jaspreet</span>
-          This is a message
-          <span className="chat__timestamp">
-            {new Date().toUTCString()}
-          </span>
-        </p>
+        {messages.map((message) => (
+          <p className={`chat__message ${message.received && "chat__receiver"}`}>
+            <span className='chat__name'>{message.name}</span>
+              This is a message
+            <span className="chat__timestamp">
+              {message.timestamp}
+            </span>
+          </p>
+        ))};
       </div>
 
       <div className='chat__footer'>
@@ -59,7 +48,7 @@ function Chat() {
               placeholder="Type a message"
               type="text" 
           />
-          <button type="submit">Send a message</button>
+          <button onClick={sendMessage} type="submit">Send a message</button>
         </form>
         <MicIcon />
       </div>
