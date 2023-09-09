@@ -4,10 +4,22 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
 import React from 'react';
 import "./Chat.css";
+import axios from "./axios"
 
 function Chat({ messages }) {
+  const [input, setInput] = useState("");
+
   const sendMessage = (e) => {
     e.preventDefaults();
+
+    axios.post('/messages/new', {
+      message: input,
+      name: "DEMO APP",
+      timeStamp: "Just Now",
+      received: false,
+    });
+
+    set
   };
   return (
     <div className="chat">
@@ -45,10 +57,11 @@ function Chat({ messages }) {
         <InsertEmoticonIcon />
         <form>
           <input
+              value={input}
               placeholder="Type a message"
               type="text" 
           />
-          <button onClick={sendMessage} type="submit">Send a message</button>
+          <button onClick={sendMessage} onChange={(e) =>setInput(e.target.value)} type="submit">Send a message</button>
         </form>
         <MicIcon />
       </div>
